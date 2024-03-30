@@ -1,3 +1,6 @@
+from htmlnode import LeafNode
+from text_type_enum import *
+
 class TextNode():
     def __init__(self, text, text_type, url=None):
         self.text = text
@@ -16,3 +19,22 @@ class TextNode():
         
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
+    
+    def text_node_to_html_node(self, text_node):
+        tag = convert_to_tag(text_node.text_type)
+        value = None
+        props = None
+        if text_node.text_type == TextType.link.name:
+            props = TextNode.create_props(href=text_node.url)
+            value = text_node.text
+        elif text_node.text_type == TextType.image.name:
+            props = TextNode.create_props(src=text_node.url, alt=text_node.text)
+        else:
+            value = text_node.text
+        return LeafNode(tag, value, props)
+
+    def create_props(**kwargs):
+        props = {}
+        for key, value in kwargs.items():
+            props[key] = value
+        return props
