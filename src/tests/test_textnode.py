@@ -1,6 +1,6 @@
 import unittest
 
-from textnode import TextNode
+from textnode import *
 from htmlnode import LeafNode
 from text_type_enum import TextType
 
@@ -23,13 +23,13 @@ class TestTextNode(unittest.TestCase):
 
     def test_convert_to_html_text(self):
         text_node = TextNode("Text", TextType.text.name)
-        html_node = text_node.text_node_to_html_node(text_node)
+        html_node = text_node_to_html_node(text_node)
         leaf_node = LeafNode(None, "Text")
         self.assertEqual(repr(html_node), repr(leaf_node))
 
     def test_convert_to_html_link(self):
         text_node = TextNode("link", TextType.link.name, "www.link.com")
-        html_node = text_node.text_node_to_html_node(text_node)
+        html_node = text_node_to_html_node(text_node)
         leaf_node = LeafNode("a", "link",  {"href": "www.link.com"})
         self.assertEqual(repr(html_node), repr(leaf_node))
 

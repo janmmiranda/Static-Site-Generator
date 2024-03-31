@@ -84,5 +84,56 @@ class TestInlineMarkdown(unittest.TestCase):
         self.assertEqual(actual, expected)
         print("============================================================")
 
+    def test_split_nodes_image(self):
+        text_node = TextNode(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+            TextType.text.name
+        )
+        actual = split_nodes_image([text_node])
+        expected = [
+            TextNode("This is text with an ", "text", None), 
+            TextNode("image", "image", "https://i.imgur.com/zjjcJKZ.png"), 
+            TextNode(" and another ", "text", None), 
+            TextNode("second image", "image", "https://i.imgur.com/3elNhQu.png")
+        ]
+        print(f"actual:  {actual} \nexpected: {expected}")
+        self.assertEqual(actual, expected)
+        print("============================================================")
+
+    def test_split_nodes_link(self):
+        text_node = TextNode(
+            "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)",
+            TextType.text.name
+        )
+        actual = split_nodes_link([text_node])
+        expected = [
+            TextNode("This is text with a ", "text", None), 
+            TextNode("link", "link", "https://www.example.com"), 
+            TextNode(" and ", "text", None), 
+            TextNode("another", "link", "https://www.example.com/another")
+        ]
+        print(f"actual:  {actual} \nexpected: {expected}")
+        self.assertEqual(actual, expected)
+        print("============================================================")
+
+    def test_text_to_textnodes(self):
+        text = "This is **text** with an *italic* word and a `code block` and an ![image](https://i.imgur.com/zjjcJKZ.png) and a [link](https://boot.dev)"
+        actual = text_to_textnodes(text)
+        expected = [
+            TextNode("This is ", "text", None), 
+            TextNode("text", "bold", None), 
+            TextNode(" with an ", "text", None), 
+            TextNode("italic", "italic", None), 
+            TextNode(" word and a ", "text", None), 
+            TextNode("code block", "code", None), 
+            TextNode(" and an ", "text", None), 
+            TextNode("image", "image", "https://i.imgur.com/zjjcJKZ.png"), 
+            TextNode(" and a ", "text", None), 
+            TextNode("link", "link", "https://boot.dev")
+        ]
+        print(f"actual:  {actual} \nexpected: {expected}")
+        self.assertEqual(actual, expected)
+        print("============================================================")
+
 if __name__ == "__main__":
     unittest.main()
