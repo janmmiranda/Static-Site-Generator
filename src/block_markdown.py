@@ -2,6 +2,17 @@ from block_type_enum import *
 from htmlnode import *
 from textnode import text_node_to_html_node
 from inline_markdown import text_to_textnodes
+
+def extract_title(md):
+    blocks = markdown_to_blocks(md)
+    h1 = []
+    for block in blocks:
+        if block.startswith("# "):
+            h1.append(block[2:])
+    if len(h1) == 0:
+        raise ValueError("Invalid Markdown, no header 1 present")
+    return h1[0]
+
 def markdown_to_blocks(markdown):
     lines = markdown.split("\n\n")
     res = []
@@ -102,7 +113,7 @@ def create_code_node(block):
     if not block.startswith("```") or not block.endswith("```"):
         raise ValueError("Invalid code block")
     text = block[4:-3]
-    children = text_to_textnodes(text)
+    children = text_to_child_node(text)
     code = ParentNode("code", children)
     return ParentNode("pre", [code])
 

@@ -1,7 +1,7 @@
 import unittest
 
-from textnode import *
-from htmlnode import LeafNode
+from textnode import TextNode, text_node_to_html_node
+from htmlnode import *
 from text_type_enum import TextType
 
 

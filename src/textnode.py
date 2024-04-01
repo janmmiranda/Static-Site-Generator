@@ -22,7 +22,7 @@ class TextNode():
     
 def text_node_to_html_node(text_node):
     tag = convert_to_tag(text_node.text_type)
-    value = None
+    value = ""
     props = None
     if text_node.text_type == TextType.link.name:
         props = create_props(href=text_node.url)

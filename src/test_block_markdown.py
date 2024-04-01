@@ -4,6 +4,7 @@ from block_markdown import *
 
 class TestBlockMarkdown(unittest.TestCase):
     def test_markdown_to_blocks(self):
+        print("test_markdown_to_blocks")
         text = """
 This is **bolded** paragraph
 

@@ -23,6 +23,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     for old_node in old_nodes:
         if not text_type in valid_text_types:
+            print(f"not formatting node: {old_node}")
             new_nodes.append(old_node)
             continue
         split_nodes = []
@@ -32,9 +33,9 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         for i in range(len(texts)):
             if texts[i] == "":
                 continue
-            type = old_node.text_type
-            if not i % 2 == 0:
-                type = text_type
+            type = text_type
+            if i % 2 == 0:
+                type = TextType.text.name
             split_nodes.append(TextNode(texts[i], type))
         new_nodes.extend(split_nodes)
     return new_nodes

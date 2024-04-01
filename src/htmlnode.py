@@ -26,6 +26,7 @@ class LeafNode(HTMLNode):
 
     def to_html(self):
         if self.value is None:
+            print(repr(self))
             raise ValueError(f"No value set on LeafNode")
         if self.tag is None:
             return self.value
